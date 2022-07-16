@@ -13,10 +13,13 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
@@ -25,8 +28,13 @@ import javax.swing.border.EmptyBorder;
  *
  * @author val12
  */
-public class MyFrame extends JFrame {
-    
+public class MyFrame extends JFrame implements ActionListener{
+    private   JTextField nameTF;
+    private JTextField emailTF;
+    private JCheckBox tp_1;
+    private JCheckBox tp_2;
+    private JCheckBox tp_3; 
+     
     public MyFrame(){
     super("Моя программа");
         setResizable(true);
@@ -51,14 +59,14 @@ public class MyFrame extends JFrame {
         c.gridy = 0;
         panel.add(namel,c);
         c.gridx = 1;
-        JTextField nameTF = new JTextField();
+        nameTF = new JTextField();
         nameTF.setPreferredSize(new Dimension(200,40));
         panel.add(nameTF, c);
         JLabel emaill = new JLabel("E-mail: ");
         c.gridx = 0;
         c.gridy = 1;
         panel.add(emaill,c);
-        JTextField emailTF = new JTextField();
+        emailTF = new JTextField();
         emailTF.setPreferredSize(new Dimension(200,40));
         c.gridx = 1;
         panel.add(emailTF,c);
@@ -69,9 +77,9 @@ public class MyFrame extends JFrame {
         top.setLayout(new BorderLayout());
         top.setBackground(Color.LIGHT_GRAY);
         top.setBorder(new EmptyBorder(0,0,300,0));  
-        JCheckBox tp_1 = new JCheckBox("HTML");
-        JCheckBox tp_2 = new JCheckBox("JavaScript");
-        JCheckBox tp_3 = new JCheckBox("PHP");
+        tp_1 = new JCheckBox("HTML");
+        tp_2 = new JCheckBox("JavaScript");
+        tp_3 = new JCheckBox("PHP");
         top.setLayout(new GridBagLayout());
         GridBagConstraints t = new GridBagConstraints();
         
@@ -93,6 +101,43 @@ public class MyFrame extends JFrame {
         
           add(panel, BorderLayout.BEFORE_FIRST_LINE);
           add(top, BorderLayout.CENTER);
+          button.addActionListener(this);
+          tp_1.addActionListener(this);
+          tp_2.addActionListener(this);
+          tp_3.addActionListener(this);
+          
+    }
+    @Override
+    public void actionPerformed(ActionEvent ae){
+    
+    if (ae.getActionCommand().equals("HTML")) 
+        System.out.println("Выбрали новости по HTML");
+    else if(ae.getActionCommand().equals("JavaScript"))
+         System.out.println("Выбрали новости по JavaScript ");   
+      else if(ae.getActionCommand().equals("PHP"))
+         System.out.println("Выбрали новости по PHP"); 
+    else if(ae.getActionCommand().equals("Подписаться"))
+    {System.out.println("Подписались на рассылку новостей"); 
+    String name = nameTF.getText();
+    String email = emailTF.getText();
+    boolean btp_1 = tp_1.isSelected();
+    boolean btp_2 = tp_2.isSelected();
+    boolean btp_3 = tp_3.isSelected();
+    try{ User user = new User (name, email, btp_1, btp_2, btp_3);
+    User.add(user);
+    User.printAllUser();
+    }
+    catch(UserException e){
+        if (e.getCode() == UserException.NO_NAME) showError("Вы не ввели имя!");
+        else if (e.getCode() == UserException.NO_EMAIL) showError("Вы не ввели email!");
+            
+            
     }
     
+    
+        }
+    }
+    private void showError (String text){
+        JOptionPane.showMessageDialog(this, text, "Ошибка", JOptionPane.ERROR_MESSAGE);
+    }
 }

@@ -17,10 +17,11 @@ public class User {
     private boolean newsHTML;
     private boolean newsJavaScript;
     private boolean newsPHP;
-    private boolean news;
+   
     private static ArrayList<User> users = new ArrayList();
     
-    public User(String name, String email, boolean newsHTML,  boolean newsJavaScript,  boolean newsPHP,  boolean news) throw UserException{
+    public User(String name, String email, boolean newsHTML,  boolean newsJavaScript,  boolean newsPHP) throws UserException
+    {
     if (name.length() == 0) throw new UserException(UserException.NO_NAME);
     if (email.length() == 0) throw new UserException(UserException.NO_EMAIL);
     this.name = name;
@@ -28,7 +29,6 @@ public class User {
     this.newsHTML = newsHTML;
     this.newsJavaScript = newsJavaScript;
     this.newsPHP = newsPHP;
-    this.news = news;
         }
     public static void add(User user){
     users.add(user);}
@@ -38,6 +38,6 @@ public class User {
     
     
     public String toString(){
-    return "Пользователь: " + name + "E-mail: " + email +"Новости HTML: " + newsHTML + "Новости JavaScript: " + newsJavaScript + "Новости PHP: " + newsPHP + "Подписан: " + news;}
+    return "Пользователь: " + name + " E-mail: " + email +" Новости HTML: " + newsHTML + " Новости JavaScript: " + newsJavaScript + " Новости PHP: " + newsPHP;}
     
 }
